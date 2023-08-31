@@ -19,6 +19,11 @@ const USER_ALL = 'All';
 export const App = () => {
   const [currentUser, setCurrentUser] = useState(USER_ALL);
   const [visibleProducts, setVisibleProducts] = useState(products);
+  const [query, setQuery] = useState('');
+
+  const searchedProducts = visibleProducts.filter(
+    ({ name }) => name.toLowerCase().includes(query.toLowerCase()),
+  );
 
   return (
     <div className="section">
@@ -65,10 +70,14 @@ export const App = () => {
               <p className="control has-icons-left has-icons-right">
                 <input
                   data-cy="SearchField"
+                  id="search-query"
                   type="text"
                   className="input"
                   placeholder="Search"
-                  value="qwe"
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                  }}
+                  value={query}
                 />
 
                 <span className="icon is-left">
@@ -81,6 +90,7 @@ export const App = () => {
                     data-cy="ClearButton"
                     type="button"
                     className="delete"
+                    onClick={() => setQuery('')}
                   />
                 </span>
               </p>
@@ -181,7 +191,7 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {visibleProducts.map(({ id, name, user, category }) => (
+              {searchedProducts.map(({ id, name, user, category }) => (
                 <tr data-cy="Product">
                   <td className="has-text-weight-bold" data-cy="ProductId">
                     {id}
