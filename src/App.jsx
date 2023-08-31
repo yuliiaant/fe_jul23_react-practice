@@ -14,10 +14,12 @@ const products = productsFromServer.map((product) => {
   return { ...product, category, user };
 });
 
-const USER_ALL = 'All';
+const ALL_USERS = 'All';
+const SEX_FEMALE = 'f';
+const SEX_MALE = 'm';
 
 export const App = () => {
-  const [currentUser, setCurrentUser] = useState(USER_ALL);
+  const [currentUser, setCurrentUser] = useState(ALL_USERS);
   const [visibleProducts, setVisibleProducts] = useState(products);
   const [query, setQuery] = useState('');
 
@@ -38,10 +40,10 @@ export const App = () => {
               <a
                 data-cy="FilterAllUsers"
                 href="#/"
-                className={cn({ 'is-active': currentUser === USER_ALL })}
+                className={cn({ 'is-active': currentUser === ALL_USERS })}
                 onClick={() => {
                   setVisibleProducts(products);
-                  setCurrentUser(USER_ALL);
+                  setCurrentUser(ALL_USERS);
                 }}
               >
                 All
@@ -110,7 +112,7 @@ export const App = () => {
               {categoriesFromServer.map(({ title, id }) => (
                 <a
                   data-cy="Category"
-                  className="button mr-2 my-1 is-info" // is-info optional
+                  className="button mr-2 my-1 is-info"
                   href="#/"
                   key={id}
                 >
@@ -125,7 +127,7 @@ export const App = () => {
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
                 onClick={() => {
-                  setCurrentUser(USER_ALL);
+                  setCurrentUser(ALL_USERS);
                   setVisibleProducts(products);
                   setQuery('');
                 }}
@@ -212,8 +214,8 @@ export const App = () => {
                   <td
                     data-cy="ProductUser"
                     className={cn({
-                      'has-text-link': user.sex === 'm',
-                      'has-text-danger': user.sex === 'f',
+                      'has-text-link': user.sex === SEX_MALE,
+                      'has-text-danger': user.sex === SEX_FEMALE,
                     })}
                   >
                     {user.name}
